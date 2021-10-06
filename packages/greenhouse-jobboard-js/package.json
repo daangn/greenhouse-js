@@ -4,9 +4,12 @@
   "license": "MIT",
   "type": "commonjs",
   "source": "./src/index.ts",
+  "module": "./dist/index.mjs",
   "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "nanobundle build"
+    "build": "nanobundle build && yarn build:dts",
+    "build:dts": "tsc --emitDeclarationOnly"
   },
   "devDependencies": {
     "nanobundle": "^0.0.14",
