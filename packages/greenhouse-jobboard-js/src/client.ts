@@ -13,21 +13,20 @@ type GetRetriveJobParams = {
   questions?: boolean;
 };
 
-export class JobBoardClient {
+export class JobBoardClientV1 {
   private client: AxiosInstance;
   boardToken: string;
-  static baseURL = 'https://boards-api.greenhouse.io';
-  static API_VERSION = '/v1';
+  static baseURL = 'https://boards-api.greenhouse.io/v1';
 
   constructor(boardToken: string) {
     this.boardToken = boardToken;
     this.client = axios.create({
-      baseURL: `${JobBoardClient.baseURL}${JobBoardClient.API_VERSION}/boards/${boardToken}`,
+      baseURL: `${JobBoardClientV1.baseURL}/boards/${boardToken}`,
     });
   }
 
-  getJobs = async (params?: GetJobsParams) =>
-    await this._request<Job[]>(`/jobs`, {
+  getJobs = (params?: GetJobsParams) =>
+    this._request<Job[]>(`/jobs`, {
       params,
     });
 
