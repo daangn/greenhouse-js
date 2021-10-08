@@ -1,5 +1,3 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import type { AxiosInstance, AxiosError } from 'axios';
 import type { Job, JobQuestionsFields } from './types';
 
 type GetJobsParams = {
@@ -13,16 +11,18 @@ type GetRetriveJobParams = {
   questions?: boolean;
 };
 
+interface JsonClient {
+  get(url: string, params?: Record<string,any>): Promise<unknown>;
+}
+
 export class JobBoardClientV1 {
-  private client: AxiosInstance;
+  client: JsonClient;
   boardToken: string;
   static baseURL = 'https://boards-api.greenhouse.io/v1';
 
-  constructor(boardToken: string) {
+  constructor(boardToken: string, jsonClient: JsonClient) {
     this.boardToken = boardToken;
-    this.client = axios.create({
-      baseURL: `${JobBoardClientV1.baseURL}/boards/${boardToken}`,
-    });
+    this.client = jsonClient
   }
 
   getJobs = (params?: GetJobsParams) =>
@@ -38,21 +38,16 @@ export class JobBoardClientV1 {
     }
   };
 
-  _request = async <T = never>(url:string, config?:AxiosRequestConfig<T>) => {
+  _request = async <T = never>(path:string, params?:Record<string,any>) => {
     try {
-      const { data } = await this.client.request({
-        method: 'GET',
-        ...config,
-        url,
-      });
-      return data;
+      return this.client.get(`${JobBoardClientV1.baseURL}/boards/${this.boardToken}${path}`, params) as Promise<T>
     } catch (error) {
-      this._onError(error as AxiosError);
+      this._onError(error as Error);
     }
     return null;
   };
 
-  _onError = (error:AxiosError) => {
+  _onError = (error: Error) => {
     console.error(error);
   };
 }

@@ -62,15 +62,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.22.0":
-  version: 0.22.0
-  resolution: "axios@npm:0.22.0"
-  dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 83dc4d02e180f69aa9f0d1d0d50b84ec3603517230d58b4c3720ebd440c7e64ea86c5e892dc6e19061608e8e1103504a709d8baa4051c4b7652101b523d04b63
-  languageName: node
-  linkType: hard
-
 "browserslist@npm:^4.0.0":
   version: 4.17.3
   resolution: "browserslist@npm:4.17.3"
@@ -374,16 +365,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.4":
-  version: 1.14.4
-  resolution: "follow-redirects@npm:1.14.4"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: d4ce74cf5c6f363168b97e706b914eb9ffb6bf4d4c6d8f8330b93088d9b90e566611ddbcf0e42c8ed5fd17598dfeda1d19230d3e9d6d6c6b4d1c10ec3a0b99be
-  languageName: node
-  linkType: hard
-
 "function-bind@npm:^1.1.1":
   version: 1.1.1
   resolution: "function-bind@npm:1.1.1"
@@ -407,7 +388,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "greenhouse-jobboard-js@workspace:packages/greenhouse-jobboard-js"
   dependencies:
-    axios: ^0.22.0
     nanobundle: ^0.0.14
     typescript: ^4.4.3
   languageName: unknown
