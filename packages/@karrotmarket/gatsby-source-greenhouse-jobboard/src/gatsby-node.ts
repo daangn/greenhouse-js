@@ -7,14 +7,10 @@ import type {
   JobQuestionFields,
 } from 'greenhouse-jobboard-js';
 import { JobBoardClientV1 } from 'greenhouse-jobboard-js';
+import type { PluginOptions, GreenhouseJobBoardJobNodeSource } from './types';
 import got from 'got';
 
 const gql = String.raw;
-
-type PluginOptions = {
-  boardToken: string,
-  forceGC: boolean,
-};
 
 export const pluginOptionsSchema: GatsbyNode['pluginOptionsSchema'] = ({
   Joi,
@@ -29,13 +25,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
   actions,
   schema,
 }, options) => {
-  type GreenhouseJobBoardJobSource = (
-    & NodeInput
-    & Omit<Job & JobContentFields & JobQuestionFields, 'id'>
-    & { ghId: number; boardToken: string }
-  );
-
-  type GreenhouseJobBoardJobCustomFieldMetadataSource = GreenhouseJobBoardJobSource['metadata'][number];
+  type GreenhouseJobBoardJobCustomFieldMetadataSource = GreenhouseJobBoardJobNodeSource['metadata'][number];
 
   actions.createTypes(gql`
     enum GreenhouseJobBoardJobCustomFieldType {
@@ -63,14 +53,14 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       fields: {
         ghId: {
           type: 'String!',
-          resolve: (source: GreenhouseJobBoardJobSource) => source.ghId.toString(),
+          resolve: (source: GreenhouseJobBoardJobNodeSource) => source.ghId.toString(),
         },
         title: {
           type: 'String!',
         },
         boardUrl: {
           type: 'String!',
-          resolve: (source: GreenhouseJobBoardJobSource) => source.absolute_url,
+          resolve: (source: GreenhouseJobBoardJobNodeSource) => source.absolute_url,
           description: 'URL to public Greenhouse job board UI',
         },
         content: {
@@ -78,7 +68,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
         },
         updatedAt: {
           type: 'Date!',
-          resolve: (source: GreenhouseJobBoardJobSource) => new Date(source.updated_at),
+          resolve: (source: GreenhouseJobBoardJobNodeSource) => new Date(source.updated_at),
           extensions: {
             dateformat: {},
           },
@@ -276,8 +266,8 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   const client = new JobBoardClientV1({
     boardToken,
     client: {
-      async get(url) {
-        const response = await got(url, { responseType: 'json' });
+      async get(url: URL) {
+        const response = await got(url.toString(), { responseType: 'json' });
         return response.body;
       },
     },
