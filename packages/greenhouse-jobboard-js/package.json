@@ -13,6 +13,10 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
     "prepack": "yarn build",
     "build": "nanobundle build && yarn build:dts",
