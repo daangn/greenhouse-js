@@ -7,6 +7,9 @@
     "prepack": "yarn build",
     "build": "babel src -d . -x .ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "index.js",
     "gatsby-node.js"
