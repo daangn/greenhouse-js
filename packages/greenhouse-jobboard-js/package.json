@@ -14,6 +14,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
+    "prepack": "yarn build",
     "build": "nanobundle build && yarn build:dts",
     "build:dts": "tsc --emitDeclarationOnly"
   },
