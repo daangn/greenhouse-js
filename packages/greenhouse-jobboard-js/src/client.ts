@@ -22,7 +22,7 @@ export class JobBoardClientV1 {
   }: JobBoardClientV1Options) {
     this.#client = client;
     this.boardToken = boardToken;
-    this.endpoint = `${JobBoardClientV1.baseURL}/${boardToken}`;
+    this.endpoint = `${JobBoardClientV1.baseURL}/boards/${boardToken}`;
   }
 
   async getJobList(): Promise<Job[]> {
