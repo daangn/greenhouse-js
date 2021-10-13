@@ -2126,6 +2126,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@karrotmarket/gatsby-source-greenhouse-jobboard@workspace:packages/@karrotmarket/gatsby-source-greenhouse-jobboard":
+  version: 0.0.0-use.local
+  resolution: "@karrotmarket/gatsby-source-greenhouse-jobboard@workspace:packages/@karrotmarket/gatsby-source-greenhouse-jobboard"
+  dependencies:
+    "@babel/cli": ^7.15.7
+    "@babel/core": ^7.15.8
+    babel-preset-gatsby-package: ^1.14.0
+    gatsby: ^3.14.2
+    got: ^11.8.2
+    greenhouse-jobboard-js: "workspace:^0.1.0"
+    typescript: ^4.4.4
+  peerDependencies:
+    gatsby: ^2.25.0 || ^3.0.0 || ^4.0.0
+  languageName: unknown
+  linkType: soft
+
 "@manypkg/find-root@npm:^1.1.0":
   version: 1.1.0
   resolution: "@manypkg/find-root@npm:1.1.0"
@@ -7222,22 +7238,6 @@ fsevents@~2.3.2:
   checksum: 533c8645c265284fae860f688176bf119a9f3e3055b259c6f0f432a5191ac94c4a1b8bde4cdc05e7f78c9d0568ec9e1bcd832d0ea3f4a3c138662cbe3e5fa9d9
   languageName: node
   linkType: hard
-
-"gatsby-source-greenhouse-jobboard@workspace:packages/gatsby-source-greenhouse-jobboard":
-  version: 0.0.0-use.local
-  resolution: "gatsby-source-greenhouse-jobboard@workspace:packages/gatsby-source-greenhouse-jobboard"
-  dependencies:
-    "@babel/cli": ^7.15.7
-    "@babel/core": ^7.15.8
-    babel-preset-gatsby-package: ^1.14.0
-    gatsby: ^3.14.2
-    got: ^11.8.2
-    greenhouse-jobboard-js: "workspace:^0.1.0"
-    typescript: ^4.4.4
-  peerDependencies:
-    gatsby: ^2.25.0 || ^3.0.0 || ^4.0.0
-  languageName: unknown
-  linkType: soft
 
 "gatsby-telemetry@npm:^2.14.0":
   version: 2.14.0
