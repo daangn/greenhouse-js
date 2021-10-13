@@ -19,7 +19,7 @@ export type JobQuestionFields = {
   data_compliance: JobCompliance[],
 };
 
-type JobQuestion = {
+export type JobQuestion = {
   required: boolean,
   label: string,
   fields: JobQuestionField[],

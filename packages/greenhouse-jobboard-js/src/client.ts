@@ -48,13 +48,13 @@ export class JobBoardClientV1 {
     return (data as any).jobs;
   }
 
-  async getJob(jobId: string): Promise<Job & JobContentFields> {
+  async getJob(jobId: Job['id']): Promise<Job & JobContentFields> {
     const url = new URL(`${this.endpoint}/job/${jobId}`);
 
     return this.#client.get(url) as Promise<Job & JobContentFields>;
   }
 
-  async getJobWithQuestions(jobId: string): Promise<Job & JobContentFields & JobQuestionFields> {
+  async getJobWithQuestions(jobId: Job['id']): Promise<Job & JobContentFields & JobQuestionFields> {
     const url = new URL(`${this.endpoint}/job/${jobId}`);
     url.searchParams.set('questions', 'true');
 
