@@ -25,26 +25,36 @@ export class JobBoardClientV1 {
     this.endpoint = `${JobBoardClientV1.baseURL}/${boardToken}`;
   }
 
-  getJobList(): Promise<Job[]> {
+  async getJobList(): Promise<Job[]> {
     const url = new URL(`${this.endpoint}/jobs`);
 
-    return this.#client.get(url) as Promise<Job[]>;
+    const data = await this.#client.get(url);
+    if (!(data && typeof data === 'object')) {
+      throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
+    }
+
+    return (data as any).jobs;
   }
 
-  getJobListWithContent(): Promise<(Job & JobContentFields)[]> {
+  async getJobListWithContent(): Promise<(Job & JobContentFields)[]> {
     const url = new URL(`${this.endpoint}/jobs`);
     url.searchParams.set('content', 'true');
 
-    return this.#client.get(url) as Promise<(Job & JobContentFields)[]>;
+    const data = await this.#client.get(url);
+    if (!(data && typeof data === 'object')) {
+      throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
+    }
+
+    return (data as any).jobs;
   }
 
-  getJob(jobId: string): Promise<Job & JobContentFields> {
+  async getJob(jobId: string): Promise<Job & JobContentFields> {
     const url = new URL(`${this.endpoint}/job/${jobId}`);
 
     return this.#client.get(url) as Promise<Job & JobContentFields>;
   }
 
-  getJobWithQuestions(jobId: string): Promise<Job & JobContentFields & JobQuestionFields> {
+  async getJobWithQuestions(jobId: string): Promise<Job & JobContentFields & JobQuestionFields> {
     const url = new URL(`${this.endpoint}/job/${jobId}`);
     url.searchParams.set('questions', 'true');
 
