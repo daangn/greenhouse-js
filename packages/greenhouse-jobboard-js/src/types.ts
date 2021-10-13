@@ -4,13 +4,16 @@ export type Job = {
   absolute_url: string,
   updated_at: string,
   requisition_id: string,
-  content: string,
   internal_job_id: number,
   location: JobLocation,
   metadata: JobCustomFieldMetadata[],
 };
 
-export type JobQuestionsFields = {
+export type JobContentFields = {
+  content: string,
+};
+
+export type JobQuestionFields = {
   questions: JobQuestion[],
   location_questions: JobLocationQuestion[],
   data_compliance: JobCompliance[],
