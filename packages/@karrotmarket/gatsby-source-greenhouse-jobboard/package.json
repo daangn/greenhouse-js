@@ -5,14 +5,14 @@
   "license": "MIT",
   "scripts": {
     "prepack": "yarn build",
-    "build": "babel src -d . -x .ts"
+    "build": "babel src -d . -x .ts && tsc --emitDeclarationOnly"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "index.js",
-    "gatsby-node.js"
+    "*.js",
+    "*.d.ts"
   ],
   "peerDependencies": {
     "gatsby": "^2.25.0 || ^3.0.0 || ^4.0.0"
