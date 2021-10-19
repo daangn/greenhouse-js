@@ -1,5 +1,21 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.3.0
+
+### Minor Changes
+
+- 5ca7009: A few fix for Gatsby nodes
+
+  - Fix options resolver
+  - Flatten question fields type
+
+  Export detail typing from greenhouse-js
+
+### Patch Changes
+
+- Updated dependencies [5ca7009]
+  - greenhouse-jobboard-js@0.2.0
+
 ## 0.2.1
 
 ### Patch Changes
