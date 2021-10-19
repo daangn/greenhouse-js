@@ -1,10 +1,7 @@
 import type { GatsbyNode, NodeInput } from 'gatsby';
 import type {
-  Job,
   JobQuestion,
-  JobContentFields,
-  JobQuestionField,
-  JobQuestionFields,
+  JobQuestionFieldValue,
 } from 'greenhouse-jobboard-js';
 import { JobBoardClientV1 } from 'greenhouse-jobboard-js';
 import type { PluginOptions, GreenhouseJobBoardJobNodeSource } from './types';
@@ -26,6 +23,10 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
   schema,
 }, options) => {
   type GreenhouseJobBoardJobCustomFieldMetadataSource = GreenhouseJobBoardJobNodeSource['metadata'][number];
+
+  const selectField = (source: JobQuestion) => {
+    return source.fields.find(field => field.type === 'input_file') ?? source.fields[0];
+  };
 
   actions.createTypes(gql`
     enum GreenhouseJobBoardJobCustomFieldType {
@@ -87,140 +88,143 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
         },
       },
     }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestion',
-      extensions: {
-        infer: false,
-      },
-      fields: {
-        label: {
-          type: 'String!',
-        },
-        required: {
-          type: 'Boolean!',
-        },
-        fields: {
-          type: '[GreenhouseJobBoardJobQuestionField!]!'
-        },
-      },
-    }),
     schema.buildInterfaceType({
-      name: 'GreenhouseJobBoardJobQuestionField',
-      resolveType(source: JobQuestionField) {
-        switch (source.type) {
+      name: 'GreenhouseJobBoardJobQuestion',
+      resolveType(source: JobQuestion) {
+        const field = selectField(source);
+        switch (field.type) {
           case 'input_file':
-            return 'GreenhouseJobBoardJobQuestionFileInputField';
+            return 'GreenhouseJobBoardJobQuestionForAttachment';
           case 'input_text':
-            return 'GreenhouseJobBoardJobQuestionTextInputField';
-          case 'input_hidden':
-            return 'GreenhouseJobBoardJobQuestionHiidenInputField';
+            return 'GreenhouseJobBoardJobQuestionForShortText';
           case 'textarea':
-            return 'GreenhouseJobBoardJobQuestionTextareaField';
+            return 'GreenhouseJobBoardJobQuestionForLongText';
           case 'multi_value_single_select':
-            return 'GreenhouseJobBoardJobQuestionSingleSelectField';
+            return 'GreenhouseJobBoardJobQuestionForSingleSelect';
           case 'multi_value_multi_select':
-            return 'GreenhouseJobBoardJobQuestionMultiSelectField';
+            return 'GreenhouseJobBoardJobQuestionForMultiSelect';
+          default:
+            throw new Error(`Unhandled question type ${field.type}`);
         }
       },
       fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
         name: {
           type: 'String!',
-        },
-        description: {
-          type: 'String',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
         },
       },
     }),
     schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionFieldValue',
+      name: 'GreenhouseJobBoardJobQuestionForAttachment',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
       fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
         name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionForShortText',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
+      fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
+        name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionForLongText',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
+      fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
+        name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionForSingleSelect',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
+      fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
+        name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+        options: {
+          type: '[GreenhouseJobBoardJobQuestionAnswerOption!]!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.values;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionForMultiSelect',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
+      fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
+        name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+        options: {
+          type: '[GreenhouseJobBoardJobQuestionAnswerOption!]!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.values;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionAnswerOption',
+      fields: {
+        label: {
           type: 'String!',
           description: 'Label of the question answer value',
         },
         value: {
-          type: 'Int!',
+          type: 'String!',
           description: 'Unique id of the question answer value',
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionFileInputField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionTextInputField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionHiddenInputField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionTextareaField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionSingleSelectField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-        options: {
-          type: '[GreenhouseJobBoardJobQuestionFieldValue!]!',
-          resolve: (source: JobQuestion) => source.fields,
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: 'GreenhouseJobBoardJobQuestionMultiSelectField',
-      interfaces: ['GreenhouseJobBoardJobQuestionField'],
-      fields: {
-        name: {
-          type: 'String!',
-        },
-        description: {
-          type: 'String',
-        },
-        options: {
-          type: '[GreenhouseJobBoardJobQuestionFieldValue!]!',
-          resolve: (source: JobQuestion) => source.fields,
+          resolve: (source: JobQuestionFieldValue) => source.value.toString(),
         },
       },
     }),
