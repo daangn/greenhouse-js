@@ -9,8 +9,9 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.ORG_GITHUB_READ_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout Repo
@@ -35,5 +36,5 @@ jobs:
         with:
           publish: yarn changeset publish
         env:
-          GITHUB_TOKEN: ${{ secrets.ORG_GITHUB_PERSONAL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
