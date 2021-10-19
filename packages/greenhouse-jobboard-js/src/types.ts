@@ -64,16 +64,16 @@ export type JobQuestionField = (
   } 
 );
 
-type JobQuestionFieldValue = {
+export type JobQuestionFieldValue = {
   name: string,
   value: number,
 };
 
-type JobLocation = {
+export type JobLocation = {
   name: string,
 };
 
-type JobLocationQuestion = JobQuestion;
+export type JobLocationQuestion = JobQuestion;
 
 export type JobCompliance = (
   | {
@@ -83,7 +83,7 @@ export type JobCompliance = (
   }
 );
 
-type JobCustomFieldMetadata = (
+export type JobCustomFieldMetadata = (
   | {
     id: number,
     name: string,
