@@ -32,9 +32,9 @@ jobs:
         run: yarn workspaces foreach -t run build
 
       - name: Create Release Pull Request or Publish to npm
-        uses: changesets/action@master
+        uses: cometkim/yarn-changeset-action@master
         with:
-          publish: yarn workspaces foreach -ipv --no-private npm publish --tolerate-republish
+          autoPublish: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
