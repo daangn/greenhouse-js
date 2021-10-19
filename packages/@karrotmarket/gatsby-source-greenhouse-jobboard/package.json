@@ -1,6 +1,6 @@
 {
   "name": "@karrotmarket/gatsby-source-greenhouse-jobboard",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "got": "^11.8.2",
-    "greenhouse-jobboard-js": "workspace:^0.1.0"
+    "greenhouse-jobboard-js": "workspace:^0.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
