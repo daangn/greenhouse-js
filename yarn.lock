@@ -2126,7 +2126,7 @@ __metadata:
     babel-preset-gatsby-package: ^1.14.0
     gatsby: ^3.14.2
     got: ^11.8.2
-    greenhouse-jobboard-js: "workspace:^0.1.2"
+    greenhouse-jobboard-js: "workspace:^0.2.0"
     typescript: ^4.4.4
   peerDependencies:
     gatsby: ^2.25.0 || ^3.0.0 || ^4.0.0
@@ -7803,7 +7803,7 @@ fsevents@~2.3.2:
   languageName: unknown
   linkType: soft
 
-"greenhouse-jobboard-js@workspace:^0.1.2, greenhouse-jobboard-js@workspace:packages/greenhouse-jobboard-js":
+"greenhouse-jobboard-js@workspace:^0.2.0, greenhouse-jobboard-js@workspace:packages/greenhouse-jobboard-js":
   version: 0.0.0-use.local
   resolution: "greenhouse-jobboard-js@workspace:packages/greenhouse-jobboard-js"
   dependencies:
