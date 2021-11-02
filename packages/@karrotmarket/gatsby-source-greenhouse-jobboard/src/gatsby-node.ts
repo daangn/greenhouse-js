@@ -100,6 +100,11 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
           case 'textarea':
             return 'GreenhouseJobBoardJobQuestionForLongText';
           case 'multi_value_single_select':
+            const [value1, value2] = field.values;
+            if ((value1?.name === 'No' && value1?.value === 0) &&
+                (value2?.name === 'Yes' && value2?.value === 1)) {
+              return 'GreenhouseJobBoardJobQuestionForYesNo';
+            }
             return 'GreenhouseJobBoardJobQuestionForSingleSelect';
           case 'multi_value_multi_select':
             return 'GreenhouseJobBoardJobQuestionForMultiSelect';
@@ -193,6 +198,29 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     }),
     schema.buildObjectType({
       name: 'GreenhouseJobBoardJobQuestionForMultiSelect',
+      interfaces: ['GreenhouseJobBoardJobQuestion'],
+      fields: {
+        label: 'String!',
+        required: 'Boolean!',
+        description: 'String',
+        name: {
+          type: 'String!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.name;
+          },
+        },
+        options: {
+          type: '[GreenhouseJobBoardJobQuestionAnswerOption!]!',
+          resolve(source: JobQuestion) {
+            const field = selectField(source);
+            return field.values;
+          },
+        },
+      },
+    }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardJobQuestionForYesNo',
       interfaces: ['GreenhouseJobBoardJobQuestion'],
       fields: {
         label: 'String!',
