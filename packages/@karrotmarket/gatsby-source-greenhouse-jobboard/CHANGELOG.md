@@ -1,5 +1,11 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.4.0
+
+### Minor Changes
+
+- 83f779c: separate yes/no type for custom question fields
+
 ## 0.3.0
 
 ### Minor Changes
