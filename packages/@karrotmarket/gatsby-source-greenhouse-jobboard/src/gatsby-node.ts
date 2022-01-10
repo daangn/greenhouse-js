@@ -299,8 +299,15 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     boardToken,
     client: {
       async get(url: URL) {
-        const response = await got(url.toString(), { responseType: 'json' });
-        return response.body;
+        try {
+          const response = await got(url.toString(), { responseType: 'json' });
+          return response.body;
+        } catch (error) {
+          throw new AggregateError(
+            [error],
+            `Failed to fetch the job board from ${url.toString()}`,
+          );
+        }
       },
     },
   });
