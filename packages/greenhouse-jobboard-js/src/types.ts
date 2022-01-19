@@ -9,8 +9,11 @@ export type Job = {
   metadata: JobCustomFieldMetadata[],
 };
 
+type JobDepartment = Omit<Department, 'jobs'> & DepartmentListItem;
+
 export type JobContentFields = {
   content: string,
+  departments: JobDepartment[],
 };
 
 export type JobQuestionFields = {
@@ -119,3 +122,26 @@ export type JobCustomFieldValueType = (
   | JobCustomFieldStringValueType
   | JobCustomFieldBooleanValueType
 );
+
+export type Department = {
+  id: number,
+  name: string,
+  jobs: DepartmentJob[],
+};
+
+type DepartmentJob = Pick<Job, (
+  | 'id'
+  | 'title'
+  | 'location'
+  | 'updated_at'
+  | 'absolute_url'
+)>;
+
+export type DepartmentListItem = {
+  parent_id: number | null,
+  child_ids: number[],
+};
+
+export type DepartmentTreeNode = {
+  children: Department[],
+};

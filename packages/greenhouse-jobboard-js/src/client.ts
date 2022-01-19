@@ -1,4 +1,11 @@
-import type { Job, JobQuestionFields, JobContentFields } from './types';
+import type {
+  Job,
+  JobQuestionFields,
+  JobContentFields,
+  Department,
+  DepartmentListItem,
+  DepartmentTreeNode,
+} from './types';
 
 type JobBoardClientV1Options = {
   boardToken: string,
@@ -36,7 +43,7 @@ export class JobBoardClientV1 {
     return (data as any).jobs;
   }
 
-  async getJobListWithContent(): Promise<(Job & JobContentFields)[]> {
+  async getJobListWithContent(): Promise<Array<Job & JobContentFields>> {
     const url = new URL(`${this.endpoint}/jobs`);
     url.searchParams.set('content', 'true');
 
@@ -48,16 +55,54 @@ export class JobBoardClientV1 {
     return (data as any).jobs;
   }
 
-  async getJob(jobId: Job['id']): Promise<Job & JobContentFields> {
+  getJob(jobId: Job['id']): Promise<Job & JobContentFields> {
     const url = new URL(`${this.endpoint}/jobs/${jobId}`);
 
     return this.#client.get(url) as Promise<Job & JobContentFields>;
   }
 
-  async getJobWithQuestions(jobId: Job['id']): Promise<Job & JobContentFields & JobQuestionFields> {
+  getJobWithQuestions(jobId: Job['id']): Promise<Job & JobContentFields & JobQuestionFields> {
     const url = new URL(`${this.endpoint}/jobs/${jobId}`);
     url.searchParams.set('questions', 'true');
 
     return this.#client.get(url) as Promise<Job & JobContentFields & JobQuestionFields>;
+  }
+
+  async getDepartmentList(): Promise<Array<Department & DepartmentListItem>> {
+    const url = new URL(`${this.endpoint}/departments`);
+    url.searchParams.set('render_as', 'list');
+
+    const data = await this.#client.get(url);
+    if (!(data && typeof data === 'object')) {
+      throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
+    }
+
+    return (data as any).departments;
+  }
+
+  async getDepartmentTree(): Promise<Array<Department & DepartmentTreeNode>> {
+    const url = new URL(`${this.endpoint}/departments`);
+    url.searchParams.set('render_as', 'tree');
+
+    const data = await this.#client.get(url);
+    if (!(data && typeof data === 'object')) {
+      throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
+    }
+
+    return (data as any).departments;
+  }
+
+  getDepartmentAsListItem(departmentId: Department['id']): Promise<Department & DepartmentListItem> {
+    const url = new URL(`${this.endpoint}/departments/${departmentId}`);
+    url.searchParams.set('render_as', 'list');
+
+    return this.#client.get(url) as Promise<Department & DepartmentListItem>;
+  }
+
+  getDepartmentAsTreeNode(departmentId: Department['id']): Promise<Department & DepartmentTreeNode> {
+    const url = new URL(`${this.endpoint}/departments/${departmentId}`);
+    url.searchParams.set('render_as', 'tree');
+
+    return this.#client.get(url) as Promise<Department & DepartmentTreeNode>;
   }
 }
