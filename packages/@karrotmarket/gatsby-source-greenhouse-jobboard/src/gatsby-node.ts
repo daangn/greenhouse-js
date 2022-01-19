@@ -315,10 +315,18 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
         },
         jobs: {
           type: '[GreenhouseJobBoardJob!]!',
-          extensions: {
-            link: {
-              by: 'ghId',
-            },
+          async resolve(source: GreenhouseJobBoardDepartmentNodeSource, _args, context) {
+            const { entries } = await context.nodeModel.findAll({
+              type: 'GreenhouseJobBoardJob',
+              query: {
+                filter: {
+                  ghId: {
+                    in: source.jobs.map(job => job.id.toString()),
+                  },
+                },
+              },
+            });
+            return entries;
           },
         },
         parentDepartment: {
