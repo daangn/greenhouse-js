@@ -1,5 +1,17 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.5.0
+
+### Minor Changes
+
+- 811602f: Added support for Departments
+
+### Patch Changes
+
+- c320d41: Improve failure error message
+- Updated dependencies [811602f]
+  - greenhouse-jobboard-js@0.3.0
+
 ## 0.4.0
 
 ### Minor Changes
