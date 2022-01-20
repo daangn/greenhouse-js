@@ -3,6 +3,8 @@ import type {
   Job,
   JobContentFields,
   JobQuestionFields,
+  Department,
+  DepartmentListItem,
 } from 'greenhouse-jobboard-js';
 
 export type PluginOptions = {
@@ -11,7 +13,6 @@ export type PluginOptions = {
 };
 
 export type GreenhouseJobBoardJobNodeSource = (
-  & NodeInput
   & Omit<Job & JobContentFields & JobQuestionFields, 'id'>
   & { ghId: number; boardToken: string }
 );
@@ -19,5 +20,16 @@ export type GreenhouseJobBoardJobNodeSource = (
 export type GreenhouseJobBoardJobNode = (
   & Node
   & Omit<Job & JobContentFields & JobQuestionFields, 'id'>
+  & { ghId: number; boardToken: string }
+);
+
+export type GreenhouseJobBoardDepartmentNodeSource = (
+  & Omit<Department & DepartmentListItem, 'id'>
+  & { ghId: number; boardToken: string }
+);
+
+export type GreenhouseJobBoardDepartmentNode = (
+  & Node
+  & Omit<Department & DepartmentListItem, 'id'>
   & { ghId: number; boardToken: string }
 );

@@ -4,7 +4,11 @@ import type {
   JobQuestionFieldValue,
 } from 'greenhouse-jobboard-js';
 import { JobBoardClientV1 } from 'greenhouse-jobboard-js';
-import type { PluginOptions, GreenhouseJobBoardJobNodeSource } from './types';
+import type {
+  PluginOptions,
+  GreenhouseJobBoardJobNodeSource,
+  GreenhouseJobBoardDepartmentNodeSource,
+} from './types';
 import got from 'got';
 
 const gql = String.raw;
@@ -79,6 +83,22 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
         },
         locationQuestions: {
           type: '[GreenhouseJobBoardJobQuestion!]!',
+        },
+        departments: {
+          type: '[GreenhouseJobBoardDepartment!]!',
+          async resolve(source: GreenhouseJobBoardJobNodeSource, _args, context) {
+            const { entries } = await context.nodeModel.findAll({
+              type: 'GreenhouseJobBoardDepartment',
+              query: {
+                filter: {
+                  ghId: {
+                    in: source.departments.map(department => department.id.toString()),
+                  },
+                },
+              },
+            });
+            return entries;
+          },
         },
         metadata: {
           type: '[GreenhouseJobBoardJobCustomFieldMetadata!]!',
@@ -278,8 +298,71 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
         },
       },
     }),
+    schema.buildObjectType({
+      name: 'GreenhouseJobBoardDepartment',
+      interfaces: ['Node'],
+      extensions: {
+        infer: false,
+      },
+      fields: {
+        ghId: {
+          type: 'String!',
+          resolve: (source: GreenhouseJobBoardDepartmentNodeSource) => source.ghId.toString(),
+        },
+        name: {
+          type: 'String!',
+          resolve: (source: GreenhouseJobBoardDepartmentNodeSource) => source.name,
+        },
+        jobs: {
+          type: '[GreenhouseJobBoardJob!]!',
+          async resolve(source: GreenhouseJobBoardDepartmentNodeSource, _args, context) {
+            const { entries } = await context.nodeModel.findAll({
+              type: 'GreenhouseJobBoardJob',
+              query: {
+                filter: {
+                  ghId: {
+                    in: source.jobs.map(job => job.id.toString()),
+                  },
+                },
+              },
+            });
+            return entries;
+          },
+        },
+        parentDepartment: {
+          type: 'GreenhouseJobBoardDepartment',
+          resolve(source: GreenhouseJobBoardDepartmentNodeSource, _args, context) {
+            return context.nodeModel.findOne({
+              type: 'GreenhouseJobBoardDepartment',
+              query: {
+                filter: {
+                  ghId: {
+                    eq: source.parent_id?.toString() ?? null,
+                  },
+                },
+              },
+            });
+          },
+        },
+        childDepartments: {
+          type: '[GreenhouseJobBoardDepartment!]!',
+          async resolve(source: GreenhouseJobBoardDepartmentNodeSource, _args, context) {
+            const { entries } = await context.nodeModel.findAll({
+              type: 'GreenhouseJobBoardDepartment',
+              query: {
+                filter: {
+                  ghId: {
+                    in: source.child_ids.map(id => id.toString()),
+                  },
+                },
+              },
+            });
+            return entries;
+          },
+        },
+      },
+    }),
   ]);
-  // TODO: Department
   // TODO: Location
 };
 
@@ -316,8 +399,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   const jobs = await Promise.all(jobList.map(job => {
     return client.getJobWithQuestions(job.id);
   }));
-
-  const jobNodes: NodeInput[] = jobs.map(job => ({
+  const jobNodes: Array<NodeInput & GreenhouseJobBoardJobNodeSource> = jobs.map(job => ({
     ...job,
     boardToken,
     ghId: job.id,
@@ -327,14 +409,31 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
       contentDigest: createContentDigest(job),
     },
   }));
-
   for (const node of jobNodes) {
+    actions.createNode(node);
+  }
+
+  const departmentList = await client.getDepartmentList();
+  const departmentNodes: Array<NodeInput & GreenhouseJobBoardDepartmentNodeSource> = departmentList.map(department => ({
+    ...department,
+    boardToken,
+    ghId: department.id,
+    id: createNodeId(`GreenhouseJobBoardDepartment:${department.id}`),
+    internal: {
+      type: 'GreenhouseJobBoardDepartment',
+      contentDigest: createContentDigest(department),
+    },
+  }));
+  for (const node of departmentNodes) {
     actions.createNode(node);
   }
 
   if (forceGC) {
     const shouldLeave = new Set<string>(jobNodes.map(node => node.id));
-    const cachedNodes = getNodesByType('GreenhouseJobBoardJob');
+    const cachedNodes = [
+      ...getNodesByType('GreenhouseJobBoardJob'),
+      ...getNodesByType('GreenhouseJobBoardDepartment'),
+    ];
     for (const node of cachedNodes) {
       if (node.boardToken !== boardToken) {
         continue;
