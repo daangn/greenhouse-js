@@ -1,5 +1,11 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.6.0
+
+### Minor Changes
+
+- 915ce79: Fix type definition for Gatsby nodes
+
 ## 0.5.0
 
 ### Minor Changes
