@@ -20,10 +20,10 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node.js 14.x
+      - name: Setup Node.js 18.x
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 18.x
 
       - name: Install Dependencies
         run: yarn install --immutable
@@ -34,7 +34,7 @@ jobs:
       - name: Create Release Pull Request or Publish to npm
         uses: cometkim/yarn-changeset-action@v1
         with:
-          autoPublish: "true"
+          autoPublish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
