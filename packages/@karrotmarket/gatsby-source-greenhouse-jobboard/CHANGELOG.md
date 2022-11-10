@@ -1,5 +1,17 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.7.0
+
+### Minor Changes
+
+- 6a81204: upgrade dependencies
+
+### Patch Changes
+
+- 6443d43: Added gatsby@5 to the valid peer dependency range
+- Updated dependencies [6a81204]
+  - greenhouse-jobboard-js@0.4.0
+
 ## 0.6.0
 
 ### Minor Changes
