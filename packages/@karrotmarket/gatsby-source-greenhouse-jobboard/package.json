@@ -22,11 +22,11 @@
     "greenhouse-jobboard-js": "workspace:^0.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "babel-preset-gatsby-package": "^1.14.0",
-    "gatsby": "^3.14.2",
-    "typescript": "^4.4.4"
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "babel-preset-gatsby-package": "^3.0.0",
+    "gatsby": "^5.0.1",
+    "typescript": "^4.8.4"
   },
   "engines": {
     "node": ">=14.0.0"
