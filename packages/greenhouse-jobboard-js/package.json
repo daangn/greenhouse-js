@@ -2,12 +2,11 @@
   "name": "greenhouse-jobboard-js",
   "version": "0.4.0",
   "license": "MIT",
-  "type": "commonjs",
-  "source": "./src/index.ts",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     },
@@ -25,7 +24,7 @@
     "build": "nanobundle build"
   },
   "devDependencies": {
-    "nanobundle": "^0.0.28",
+    "nanobundle": "^1.5.0",
     "typescript": "^4.8.4"
   }
 }
