@@ -1,5 +1,15 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.8.0
+
+### Minor Changes
+
+- 1b42391: gatsby-source-greenhouse-js: remove got and use native fetch
+
+### Patch Changes
+
+- e0dd41e: gatsby-source-greenhouse-jobboard: touch all cached nodes
+
 ## 0.7.0
 
 ### Minor Changes
