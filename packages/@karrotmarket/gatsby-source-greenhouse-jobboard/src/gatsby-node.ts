@@ -9,7 +9,6 @@ import type {
   GreenhouseJobBoardJobNodeSource,
   GreenhouseJobBoardDepartmentNodeSource,
 } from './types';
-import got from 'got';
 
 const gql = String.raw;
 
@@ -383,12 +382,13 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     client: {
       async get(url: URL) {
         try {
-          const response = await got(url.toString(), { responseType: 'json' });
-          return response.body;
+          const response = await fetch(url);
+          const data = await response.json();
+          return data;
         } catch (error) {
-          throw new AggregateError(
-            [error],
+          throw new Error(
             `Failed to fetch the job board from ${url.toString()}`,
+            { cause: error },
           );
         }
       },
