@@ -428,16 +428,20 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     actions.createNode(node);
   }
 
-  if (forceGC) {
-    const shouldLeave = new Set<string>(jobNodes.map(node => node.id));
-    const cachedNodes = [
-      ...getNodesByType('GreenhouseJobBoardJob'),
-      ...getNodesByType('GreenhouseJobBoardDepartment'),
-    ];
-    for (const node of cachedNodes) {
-      if (node.boardToken !== boardToken) {
-        continue;
-      }
+  const shouldLeave = new Set<string>(jobNodes.map(node => node.id));
+  const cachedNodes = [
+    ...getNodesByType('GreenhouseJobBoardJob'),
+    ...getNodesByType('GreenhouseJobBoardDepartment'),
+  ];
+
+  for (const node of cachedNodes) {
+    if (node.boardToken !== boardToken) {
+      continue;
+    }
+
+    actions.touchNode(node);
+
+    if (forceGC) {
       if (!shouldLeave.has(node.id)) {
         actions.deleteNode(node);
       }
