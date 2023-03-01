@@ -1,5 +1,11 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.9.0
+
+### Minor Changes
+
+- 0996468: touch GreenhouseJobDepartmentNode type nodes to avoid GC
+
 ## 0.8.0
 
 ### Minor Changes
