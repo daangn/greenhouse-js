@@ -428,7 +428,10 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     actions.createNode(node);
   }
 
-  const shouldLeave = new Set<string>(jobNodes.map(node => node.id));
+  const shouldLeave = new Set<string>([
+    ...jobNodes.map(node => node.id),
+    ...departmentNodes.map(node => node.id),
+  ]);
   const cachedNodes = [
     ...getNodesByType('GreenhouseJobBoardJob'),
     ...getNodesByType('GreenhouseJobBoardDepartment'),
