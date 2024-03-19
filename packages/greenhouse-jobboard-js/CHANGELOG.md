@@ -1,5 +1,15 @@
 # greenhouse-jobboard-js
 
+## 0.5.0
+
+### Minor Changes
+
+- 6702d53: update dependencies
+
+### Patch Changes
+
+- f39b44a: Add fallback so returns empty job list instead error
+
 ## 0.4.0
 
 ### Minor Changes
