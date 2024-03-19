@@ -1,5 +1,11 @@
 # greenhouse-jobboard-js
 
+## 0.5.1
+
+### Patch Changes
+
+- 5534a09: Add fallback so returns empty department list instead error
+
 ## 0.5.0
 
 ### Minor Changes
