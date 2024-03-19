@@ -1,5 +1,17 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.10.0
+
+### Minor Changes
+
+- 6702d53: update dependencies
+
+### Patch Changes
+
+- Updated dependencies [6702d53]
+- Updated dependencies [f39b44a]
+  - greenhouse-jobboard-js@0.5.0
+
 ## 0.9.0
 
 ### Minor Changes
