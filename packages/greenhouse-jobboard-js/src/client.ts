@@ -40,7 +40,16 @@ export class JobBoardClientV1 {
       throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
     }
 
-    return (data as any).jobs;
+    if ('status' in data && data.status === 404) {
+      // If jobs empty, Greenhouse treats it as "not found" error
+      return [];
+    }
+
+    if ('jobs' in data) {
+      return data.jobs as Job[];
+    }
+
+    throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
   }
 
   async getJobListWithContent(): Promise<Array<Job & JobContentFields>> {
@@ -52,7 +61,16 @@ export class JobBoardClientV1 {
       throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
     }
 
-    return (data as any).jobs;
+    if ('status' in data && data.status === 404) {
+      // If jobs empty, Greenhouse treats it as "not found" error
+      return [];
+    }
+
+    if ('jobs' in data) {
+      return data.jobs as Array<Job & JobContentFields>;
+    }
+
+    throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
   }
 
   getJob(jobId: Job['id']): Promise<Job & JobContentFields> {
