@@ -95,7 +95,16 @@ export class JobBoardClientV1 {
       throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
     }
 
-    return (data as any).departments;
+    if ('status' in data && data.status === 404) {
+      // If departments empty, Greenhouse treats it as "not found" error
+      return [];
+    }
+
+    if ('departments' in data) {
+      return data.departments as Array<Department & DepartmentListItem>;
+    }
+
+    throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
   }
 
   async getDepartmentTree(): Promise<Array<Department & DepartmentTreeNode>> {
@@ -106,6 +115,17 @@ export class JobBoardClientV1 {
     if (!(data && typeof data === 'object')) {
       throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
     }
+
+    if ('status' in data && data.status === 404) {
+      // If departments empty, Greenhouse treats it as "not found" error
+      return [];
+    }
+
+    if ('departments' in data) {
+      return data.departments as Array<Department & DepartmentTreeNode>;
+    }
+
+    throw new Error(`Unexpected response type: ${JSON.stringify(data)}`);
 
     return (data as any).departments;
   }
