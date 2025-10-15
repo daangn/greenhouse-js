@@ -8,7 +8,7 @@ import type {
   PluginOptions,
   GreenhouseJobBoardJobNodeSource,
   GreenhouseJobBoardDepartmentNodeSource,
-} from './types';
+} from './types.ts';
 
 const gql = String.raw;
 

@@ -15,7 +15,7 @@
     "access": "public",
     "provenance": true
   },
-  "main": "index.js",
+  "main": "./index.js",
   "files": [
     "*.js",
     "*.d.ts"

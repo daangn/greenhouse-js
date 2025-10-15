@@ -11,19 +11,20 @@
     "url": "git+https://github.com/daangn/greenhouse-js.git",
     "directory": "packages/greenhouse-jobboard-js"
   },
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public",
-    "provenance": true
-  },
-  "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
-    },
-    "./package.json": "./package.json"
+    "provenance": true,
+    "main": "./dist/index.cjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.mjs"
+      },
+      "./package.json": "./package.json"
+    }
   },
   "files": [
     "src",
