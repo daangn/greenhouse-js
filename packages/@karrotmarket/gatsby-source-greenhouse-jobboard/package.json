@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/greenhouse-jobboard-js.git",
+    "url": "git+https://github.com/daangn/greenhouse-js.git",
     "directory": "packages/@karrotmarket/gatsby-source-greenhouse-jobboard"
   },
   "publishConfig": {
