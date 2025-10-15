@@ -2,6 +2,19 @@
   "name": "greenhouse-jobboard-js",
   "version": "0.5.1",
   "license": "MIT",
+  "author": {
+    "name": "Danggeun Market Inc.",
+    "email": "oss-developers@daangn.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/greenhouse-jobboard-js.git",
+    "directory": "packages/greenhouse-jobboard-js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -11,9 +24,6 @@
       "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "files": [
     "src",

@@ -1,19 +1,29 @@
 {
   "name": "@karrotmarket/gatsby-source-greenhouse-jobboard",
   "version": "0.10.1",
-  "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "prepack": "yarn build",
-    "build": "babel src -d . -x .ts && tsc --emitDeclarationOnly"
+  "author": {
+    "name": "Danggeun Market Inc.",
+    "email": "oss-developers@daangn.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/greenhouse-jobboard-js.git",
+    "directory": "packages/@karrotmarket/gatsby-source-greenhouse-jobboard"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
+  "main": "index.js",
   "files": [
     "*.js",
     "*.d.ts"
   ],
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "babel src -d . -x .ts && tsc --emitDeclarationOnly"
+  },
   "peerDependencies": {
     "gatsby": "^2.25.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
   },
