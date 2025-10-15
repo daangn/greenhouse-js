@@ -1,5 +1,16 @@
 # @karrotmarket/gatsby-source-greenhouse-jobboard
 
+## 0.11.0
+
+### Minor Changes
+
+- 46d60f6: Setup provenance and OIDC publishing
+
+### Patch Changes
+
+- Updated dependencies [46d60f6]
+  - greenhouse-jobboard-js@0.6.0
+
 ## 0.10.1
 
 ### Patch Changes

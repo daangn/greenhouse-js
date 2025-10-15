@@ -1,5 +1,11 @@
 # greenhouse-jobboard-js
 
+## 0.6.0
+
+### Minor Changes
+
+- 46d60f6: Setup provenance and OIDC publishing
+
 ## 0.5.1
 
 ### Patch Changes
